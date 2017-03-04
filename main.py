@@ -81,7 +81,7 @@ print("done in %0.3fs" % (time() - t0))
 
 print "Computing prediction with cross validation"
 t0 = time()
-y_score = cross_val_predict(model, X_test, y_test, cv=cross_validation) # make 4-fold cross validation
+y_score = cross_val_predict(model, X_test, y_test, cv=cross_validation) # make n-fold cross validation
 y_score = y_score.clip(0) # clipping negative numbers to zero
 test_size = len(y_score)
 total_comparisions = test_size * n_classes;
@@ -100,6 +100,7 @@ tpr, fpr, roc_auc = compute_roc(n_classes, y_score, y_test)
 print("done in %0.3fs" % (time() - t0))
 
 print "Plotting graphs..."
+
 # Plot FAR and FRR
 plot_far_frr(far, frr)
 

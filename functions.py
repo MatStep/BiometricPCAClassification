@@ -104,15 +104,6 @@ def plot_far_frr(far, frr):
 
     axisVal = np.arange(0,1.00,0.01);
 
-    names = ['id','data']
-    formats = ['f8','f8']
-    dtype = dict(names = names, formats=formats)
-    farArray = np.array(far.values())
-    frrArray = np.array(frr.values())
-
-    idx = np.argwhere(np.diff(np.sign(frrArray - farArray)) != 0)
-    mn = np.mean([farArray[idx], frrArray[idx]])
-
     # PLOT FAR FRR
     plt.figure()
     lw = 2
@@ -120,7 +111,6 @@ def plot_far_frr(far, frr):
     plt.plot(axisVal, frr.values(), label='False Reject Rate', color='red', lw=lw)
     plt.xlim([0.0, 1.0])
     plt.ylim([0.0, 1.05])
-    # plt.plot(axisVal[idx], mn, 'ro', label= 'EER in %0.02f' % axisVal[idx])
     plt.xlabel('Treshold')
     plt.ylabel('Errors')
     plt.title('FAR and FRR')
