@@ -51,6 +51,18 @@ def compute_pca(X_train, y_train, comparator = LinearRegression()):
     pipe.fit(X_train, y_train)
     return pipe
 
+def compute_cv_pca(X_train, y_train, X_test, cross_validation):
+    scores = []
+    comparator = LinearRegression()
+    for i in range(cross_validation):
+        clf = compute_pca(X_train, y_train, comparator)
+        predictions = clf.predict(X_test);
+        scores.append(predictions)
+    scores = np.array(scores)
+    mean = np.mean(scores, axis=0)
+
+    return mean
+
 def unison_shuffled_copies(a, b):
     assert len(a) == len(b)
     p = np.random.permutation(len(a))

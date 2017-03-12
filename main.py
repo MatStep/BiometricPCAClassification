@@ -6,17 +6,16 @@ from sklearn import svm
 import argparse
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
-from sklearn.model_selection import cross_val_predict
 from matplotlib import pyplot as plt
 
 from functions import load_images_from_folder
 from functions import load_classes_from_folder
-from functions import compute_pca
 from functions import unison_shuffled_copies
 from functions import pred_approx_val
 from functions import perf_measure
 from functions import calc_far_frr
 from functions import prepare_graph_far_frr
+from functions import compute_cv_pca
 from functions import plot_far_frr
 from functions import compute_roc
 from functions import plot_roc
@@ -74,14 +73,10 @@ if cross_validation < 2:
     print "ERROR: cross-validation argument must be greater than 1"
     quit()
 
-print "Computing PCA and Linear regression"
+# Compute PCA with Linear regression and cross validation
+print "Computing PCA and Linear regression with cross validation"
 t0 = time()
-model = compute_pca(X_train, y_train, LinearRegression())
-print("done in %0.3fs" % (time() - t0))
-
-print "Computing prediction with cross validation"
-t0 = time()
-y_score = cross_val_predict(model, X_test, y_test, cv=cross_validation) # make n-fold cross validation
+y_score = compute_cv_pca(X_train, y_train, X_test, cross_validation)
 y_score = y_score.clip(0) # clipping negative numbers to zero
 test_size = len(y_score)
 total_comparisions = test_size * n_classes;
